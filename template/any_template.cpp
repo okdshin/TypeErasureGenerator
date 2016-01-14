@@ -80,7 +80,7 @@ namespace {parent_namespace_name} {{
 {member_functions}
 
 		private:
-			std::unique_ptr<{name}_holder_impl::{name}_holder_base> holder_;
+			std::unique_ptr<{name}_impl::{name}_holder_base> holder_;
 		}};
 
 		decltype(auto) swap({name}& lhs, {name}& rhs) {{
