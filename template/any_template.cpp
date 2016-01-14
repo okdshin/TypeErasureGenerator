@@ -17,7 +17,7 @@ namespace {parent_namespace_name} {{
 
 				virtual std::unique_ptr<{name}_holder_base> clone() = 0;
 
-	{holder_base_member_functions}
+{holder_base_member_functions}
 			}};
 
 			template<typename T>
@@ -37,7 +37,7 @@ namespace {parent_namespace_name} {{
 				explicit {name}_holder(U&& u) 
 					: {name}_holder_base{{}}, t_{{std::forward<U>(u)}} {{}}
 
-	{holder_member_functions}
+{holder_member_functions}
 
 			private:
 				T t_;
@@ -65,10 +65,22 @@ namespace {parent_namespace_name} {{
 			: holder_(std::make_unique<{name}_impl::{name}_holder<std::decay_t<U>>>(
 				std::forward<U>(u))) {{}}
 
-	{member_functions}
+			explicit operator bool() const noexcept {{
+				return static_cast<bool>(holder_);
+			}}
+
+			decltype(auto) swap({name}& other) noexcept {{
+				holder_.swap(other.holder_);
+			}}
+
+{member_functions}
 
 		private:
 			std::unique_ptr<{name}_holder_impl::{name}_holder_base> holder_;
 		}};
+
+		decltype(auto) swap({name}& lhs, {name}& rhs) {{
+			lhs.swap(rhs);
+		}}
 	}}
 }}

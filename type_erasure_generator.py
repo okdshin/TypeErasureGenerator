@@ -15,13 +15,13 @@ def generate_any(params, dest_dir):
 
     functions = params["functions"]
 
-    holder_base_mem_funcs_template = "\t\t\tvirtual {return_type} {function_name}({params}) {const} {noexcept} = 0;"
+    holder_base_mem_funcs_template = "\t\t\t\tvirtual {return_type} {function_name}({params}) {const} {noexcept} = 0;"
     holder_base_member_function_list = []
     for function in functions:
         holder_base_member_function_list.append(
             holder_base_mem_funcs_template.format(**function))
 
-    holder_mem_funcs_template = "\t\t\t{return_type} {function_name}({params}) {const} {noexcept} override {{\n\t\t\t\t\t::{parent_namespace_name}::{namespace_name}::{function_name}(t_, {args});\n\t\t\t\t}}"
+    holder_mem_funcs_template = "\t\t\t\t{return_type} {function_name}({params}) {const} {noexcept} override {{\n\t\t\t\t\t::{parent_namespace_name}::{namespace_name}::{function_name}(t_, {args});\n\t\t\t\t}}"
     holder_member_function_list = []
     for function in functions:
         holder_member_function_list.append(
@@ -30,7 +30,7 @@ def generate_any(params, dest_dir):
                 parent_namespace_name=params["parent_namespace_name"],
                 namespace_name=params["namespace_name"]))
 
-    mem_funcs_template = "\t\t{return_type} {function_name}({params}) {const} {noexcept} {{\n\t\t\t\tholder_->{function_name}({args});\n\t\t\t}}"
+    mem_funcs_template = "\t\t\t{return_type} {function_name}({params}) {const} {noexcept} {{\n\t\t\t\tholder_->{function_name}({args});\n\t\t\t}}"
     member_function_list = []
     for function in functions:
         member_function_list.append(
@@ -43,9 +43,9 @@ def generate_any(params, dest_dir):
             name=params["name"],
             parent_namespace_name=params["parent_namespace_name"],
             namespace_name=params["namespace_name"],
-            holder_base_member_functions="\n\t".join(holder_base_member_function_list),
-            holder_member_functions="\n\t".join(holder_member_function_list),
-            member_functions="\n\t".join(member_function_list))
+            holder_base_member_functions="\n".join(holder_base_member_function_list),
+            holder_member_functions="\n".join(holder_member_function_list),
+            member_functions="\n".join(member_function_list))
 
     with open(os.path.join(dest_dir, "{name}.cpp").format(name=params["name"]), "w") as resultf:
         resultf.write(generated_source)
