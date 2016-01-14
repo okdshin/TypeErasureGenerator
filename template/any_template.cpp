@@ -1,3 +1,5 @@
+#ifndef {capital_parent_namespace_name}_{capital_namespace_name}_{capital_name}_HPP
+#define {capital_parent_namespace_name}_{capital_namespace_name}_{capital_name}_HPP
 #include <type_traits>
 #include <utility>
 #include <memory>
@@ -84,3 +86,4 @@ namespace {parent_namespace_name} {{
 		}}
 	}}
 }}
+#endif //{capital_parent_namespace_name}_{capital_namespace_name}_{capital_name}_HPP

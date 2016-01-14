@@ -1,4 +1,5 @@
 {
+	"traits_file_name":"traits.hpp",
     "include_headers":[
         "iostream",
         "Widget.hpp"

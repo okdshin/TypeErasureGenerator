@@ -11,7 +11,10 @@ def generate_any(params, dest_dir):
     for include_header in include_headers:
         include_headers_list.append(
             include_headers_template.format(header=include_header))
-    include_headers_list.append("#include <{parent_namespace_name}/{namespace_name}/traits.hpp>".format(parent_namespace_name=params["parent_namespace_name"], namespace_name=params["namespace_name"]))
+    include_headers_list.append("#include <{parent_namespace_name}/{namespace_name}/{traits_file_name}>".format(
+        parent_namespace_name=params["parent_namespace_name"],
+        namespace_name=params["namespace_name"],
+        traits_file_name=params["traits_file_name"]))
 
     functions = params["functions"]
 
@@ -43,6 +46,9 @@ def generate_any(params, dest_dir):
     generated_source = ""
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template", "any_template.cpp")) as templatef:
         generated_source = templatef.read().format(
+            capital_parent_namespace_name=params["parent_namespace_name"].upper(),
+            capital_namespace_name=params["namespace_name"].upper(),
+            capital_name=params["name"].upper(),
             include_headers="\n".join(include_headers_list),
             name=params["name"],
             parent_namespace_name=params["parent_namespace_name"],
@@ -57,13 +63,19 @@ def generate_any(params, dest_dir):
 def generate_traits(params, dest_dir):
     include_headers = params["include_headers"]
 
-    include_headers_template = """#include <{header}>"""
+    include_headers_template = "#include <{header}>"
     include_headers_list = []
     for include_header in include_headers:
         include_headers_list.append(
             include_headers_template.format(header=include_header))
 
-    traits_source_list = ["\n".join(include_headers_list), ""]
+    traits_source_list = [
+        "#ifndef {capital_parent_namespace_name}_{capital_namespace_name}_TRAITS_HPP\n#define {capital_parent_namespace_name}_{capital_namespace_name}_TRAITS_HPP".format(
+            capital_parent_namespace_name=params["parent_namespace_name"].upper(),
+            capital_namespace_name=params["namespace_name"].upper()),
+        "\n".join(include_headers_list),
+        ""
+    ]
     functions = params["functions"]
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template", "traits_template.cpp")) as templatef:
         template = templatef.read()
@@ -74,8 +86,12 @@ def generate_traits(params, dest_dir):
                 parent_namespace_name=params["parent_namespace_name"],
                 namespace_name=params["namespace_name"],
                 **function))
+    traits_source_list.append("#endif // {capital_parent_namespace_name}_{capital_namespace_name}_TRAITS_HPP".format(
+            capital_parent_namespace_name=params["parent_namespace_name"].upper(),
+            capital_namespace_name=params["namespace_name"].upper()
+        ))
 
-    with open(os.path.join(dest_dir, "traits.hpp"), "w") as resultf:
+    with open(os.path.join(dest_dir, params["traits_file_name"]), "w") as resultf:
         resultf.write("\n".join(traits_source_list))
 
 def main():
