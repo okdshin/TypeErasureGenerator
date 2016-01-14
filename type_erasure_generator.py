@@ -21,20 +21,24 @@ def generate_any(params, dest_dir):
         holder_base_member_function_list.append(
             holder_base_mem_funcs_template.format(**function))
 
-    holder_mem_funcs_template = "\t\t\t\t{return_type} {function_name}({params}) {const} {noexcept} override {{\n\t\t\t\t\t::{parent_namespace_name}::{namespace_name}::{function_name}(t_, {args});\n\t\t\t\t}}"
+    holder_mem_funcs_template = "\t\t\t\t{return_type} {function_name}({params}) {const} {noexcept} override {{\n\t\t\t\t\t{return_} ::{parent_namespace_name}::{namespace_name}::{function_name}(t_{comma} {args});\n\t\t\t\t}}"
     holder_member_function_list = []
     for function in functions:
         holder_member_function_list.append(
             holder_mem_funcs_template.format(
                 **function,
+                comma="," if function["params"] != "" else "",
+                return_="" if function["return_type"] == "void" else "return ",
                 parent_namespace_name=params["parent_namespace_name"],
                 namespace_name=params["namespace_name"]))
 
-    mem_funcs_template = "\t\t\t{return_type} {function_name}({params}) {const} {noexcept} {{\n\t\t\t\tholder_->{function_name}({args});\n\t\t\t}}"
+    mem_funcs_template = "\t\t\t{return_type} {function_name}({params}) {const} {noexcept} {{\n\t\t\t\t{return_} holder_->{function_name}({args});\n\t\t\t}}"
     member_function_list = []
     for function in functions:
         member_function_list.append(
-            mem_funcs_template.format(**function))
+            mem_funcs_template.format(
+                return_="" if function["return_type"] == "void" else "return ",
+                **function))
 
     generated_source = ""
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template", "any_template.cpp")) as templatef:
@@ -65,6 +69,8 @@ def generate_traits(params, dest_dir):
         template = templatef.read()
         for function in functions:
             traits_source_list.append(template.format(
+                comma="," if function["params"] != "" else "",
+                return_="" if function["return_type"] == "void" else "return ",
                 parent_namespace_name=params["parent_namespace_name"],
                 namespace_name=params["namespace_name"],
                 **function))
