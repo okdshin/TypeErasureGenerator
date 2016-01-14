@@ -10,7 +10,7 @@ namespace {parent_namespace_name} {{
 		}}
 		template<typename T>
 		decltype(auto) {function_name}(T {const}& t{comma} {params}) {noexcept} {{
-			{return_} ::{parent_namespace_name}::{namespace_name}::traits::{function_name}<T>::call(t, {args});
+			{return_} ::{parent_namespace_name}::{namespace_name}::traits::{function_name}<T>::call(t{comma} {args});
 		}}
 	}}
 }}

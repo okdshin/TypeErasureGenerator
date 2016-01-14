@@ -51,7 +51,7 @@ def generate_any(params, dest_dir):
             holder_member_functions="\n".join(holder_member_function_list),
             member_functions="\n".join(member_function_list))
 
-    with open(os.path.join(dest_dir, "{name}.cpp").format(name=params["name"]), "w") as resultf:
+    with open(os.path.join(dest_dir, "{name}.hpp").format(name=params["name"]), "w") as resultf:
         resultf.write(generated_source)
 
 def generate_traits(params, dest_dir):
@@ -75,7 +75,7 @@ def generate_traits(params, dest_dir):
                 namespace_name=params["namespace_name"],
                 **function))
 
-    with open(os.path.join(dest_dir, "traits.cpp"), "w") as resultf:
+    with open(os.path.join(dest_dir, "traits.hpp"), "w") as resultf:
         resultf.write("\n".join(traits_source_list))
 
 def main():
