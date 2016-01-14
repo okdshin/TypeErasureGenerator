@@ -35,9 +35,11 @@ namespace {parent_namespace_name} {{
 					return std::make_unique_ptr<{name}_holder>(*this);
 				}}
 
-				template<typename U>
+				template<
+					typename U,
+					typename=std::enable_if_t<!std::is_same<{name}_holder, std::decay_t<U>>::value>
 				explicit {name}_holder(U&& u) 
-					: {name}_holder_base{{}}, t_{{std::forward<U>(u)}} {{}}
+					: {name}_holder_base(), t_(std::forward<U>(u)) {{}}
 
 {holder_member_functions}
 
