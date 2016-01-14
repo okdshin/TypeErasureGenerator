@@ -32,12 +32,12 @@ namespace {parent_namespace_name} {{
 				~{name}_holder() noexcept = default;
 
 				std::unique_ptr<{name}_holder_base> clone() override {{
-					return std::make_unique_ptr<{name}_holder>(*this);
+					return std::make_unique<{name}_holder>(*this);
 				}}
 
 				template<
 					typename U,
-					typename=std::enable_if_t<!std::is_same<{name}_holder, std::decay_t<U>>::value>
+					typename=std::enable_if_t<!std::is_same<{name}_holder, std::decay_t<U>>::value>>
 				explicit {name}_holder(U&& u) 
 					: {name}_holder_base(), t_(std::forward<U>(u)) {{}}
 
