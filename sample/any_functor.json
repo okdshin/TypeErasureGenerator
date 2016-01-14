@@ -1,0 +1,19 @@
+{
+    "include_headers":[
+        "iostream",
+        "Widget.hpp"
+    ],
+    "parent_namespace_name":"my",
+    "namespace_name":"functor",
+    "name":"any_functor",
+    "functions":[
+        {"return_type":"void", "function_name":"apply",
+            "params":"Widget const& w1, Widget& w2",
+            "args":"w1, w2",
+            "const":"", "noexcept":"noexcept"},
+        {"return_type":"void", "function_name":"serialize",
+            "params":"std::ostream& os",
+            "args":"os",
+            "const":"const", "noexcept":""}
+    ]
+}

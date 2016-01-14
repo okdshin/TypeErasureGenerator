@@ -37,7 +37,7 @@ def generate_any(params, dest_dir):
             mem_funcs_template.format(**function))
 
     generated_source = ""
-    with open("any_template.cpp") as templatef:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template", "any_template.cpp")) as templatef:
         generated_source = templatef.read().format(
             include_headers="\n".join(include_headers_list),
             name=params["name"],
@@ -61,7 +61,7 @@ def generate_traits(params, dest_dir):
 
     traits_source_list = ["\n".join(include_headers_list), ""]
     functions = params["functions"]
-    with open("traits_template.cpp") as templatef:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template", "traits_template.cpp")) as templatef:
         template = templatef.read()
         for function in functions:
             traits_source_list.append(template.format(
