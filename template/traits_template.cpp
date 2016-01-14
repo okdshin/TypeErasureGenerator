@@ -3,6 +3,7 @@ namespace {parent_namespace_name} {{
 		namespace traits {{
 			template<typename T>
 			class {function_name} {{
+			public:
 				static decltype(auto) call(T {const}& t{comma} {params}) {noexcept} {{
 					{return_} t.{function_name}({args});
 				}}
