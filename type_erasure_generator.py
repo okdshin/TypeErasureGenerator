@@ -28,7 +28,7 @@ def generate_any(params, dest_dir):
             holder_mem_funcs_template.format(
                 **function,
                 comma="," if function["params"] != "" else "",
-                return_="" if function["return_type"] == "void" else "return ",
+                return_="" if function["return_type"] == "void" else "return",
                 parent_namespace_name=params["parent_namespace_name"],
                 namespace_name=params["namespace_name"]))
 
@@ -37,7 +37,7 @@ def generate_any(params, dest_dir):
     for function in functions:
         member_function_list.append(
             mem_funcs_template.format(
-                return_="" if function["return_type"] == "void" else "return ",
+                return_="" if function["return_type"] == "void" else "return",
                 **function))
 
     generated_source = ""
@@ -70,7 +70,7 @@ def generate_traits(params, dest_dir):
         for function in functions:
             traits_source_list.append(template.format(
                 comma="," if function["params"] != "" else "",
-                return_="" if function["return_type"] == "void" else "return ",
+                return_="" if function["return_type"] == "void" else "return",
                 parent_namespace_name=params["parent_namespace_name"],
                 namespace_name=params["namespace_name"],
                 **function))
